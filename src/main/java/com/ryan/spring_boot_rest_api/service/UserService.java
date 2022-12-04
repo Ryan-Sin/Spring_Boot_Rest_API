@@ -4,7 +4,7 @@ import com.ryan.spring_boot_rest_api.domain.User;
 import com.ryan.spring_boot_rest_api.dto.CreatUserDto;
 import com.ryan.spring_boot_rest_api.dto.SuccessResponse;
 import com.ryan.spring_boot_rest_api.dto.UpdateUserDto;
-import com.ryan.spring_boot_rest_api.repository.UserRepository;
+import com.ryan.spring_boot_rest_api.repository.UserRepositoryInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-
+    private final UserRepositoryInterface userRepository;
     /**
      * @author Ryan
      * @description 유저 생성 컨트롤러
@@ -26,6 +25,8 @@ public class UserService {
      * @return User Id
      */
     public SuccessResponse onCreateUser(CreatUserDto creatUserDto){
+
+        System.out.println("동일한 Repository 인가요? = " + userRepository);
 
         int id = creatUserDto.getId();
         String name = creatUserDto.getName();

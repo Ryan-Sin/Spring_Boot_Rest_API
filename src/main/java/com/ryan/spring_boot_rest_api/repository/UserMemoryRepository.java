@@ -1,14 +1,12 @@
 package com.ryan.spring_boot_rest_api.repository;
 
 import com.ryan.spring_boot_rest_api.domain.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
-public class UserRepository {
+public class UserMemoryRepository implements UserRepositoryInterface{
 
     Map<Integer, User> memoryDB = new ConcurrentHashMap<>();
 
@@ -21,6 +19,7 @@ public class UserRepository {
      *
      * @return id 유저 아이디
      */
+    @Override
     public int save(int id, String name){
 
         User user = new User();
@@ -38,6 +37,7 @@ public class UserRepository {
      *
      * @return User 유저
      */
+    @Override
     public User findByUser(int id){
         return this.memoryDB.get(id);
     }
@@ -48,6 +48,7 @@ public class UserRepository {
      *
      * @return User[] 유저 리스트
      */
+    @Override
     public Collection<User> findAllByUser(){
         return this.memoryDB.values();
     }
@@ -59,6 +60,7 @@ public class UserRepository {
      *
      * @return User 유저
      */
+    @Override
     public User update(int id, String name){
 
         User user = this.memoryDB.get(id);
@@ -76,6 +78,7 @@ public class UserRepository {
      *
      * @return Boolean 성공 여부
      */
+    @Override
     public Boolean delete(int id){
 
         User user = this.memoryDB.remove(id);
