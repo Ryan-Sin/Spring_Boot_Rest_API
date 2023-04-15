@@ -4,8 +4,10 @@ import com.ryan.spring_boot_rest_api.domain.User;
 import com.ryan.spring_boot_rest_api.dto.CreatUserDto;
 import com.ryan.spring_boot_rest_api.dto.SuccessResponse;
 import com.ryan.spring_boot_rest_api.dto.UpdateUserDto;
+import com.ryan.spring_boot_rest_api.repository.UserDiskRepository;
 import com.ryan.spring_boot_rest_api.repository.UserRepositoryInterface;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +18,11 @@ import java.util.List;
 public class UserService {
 
     private final UserRepositoryInterface userRepository;
+
+    @Autowired
+    private final UserDiskRepository userDiskRepository;
+
+
     /**
      * @author Ryan
      * @description 유저 생성 컨트롤러
@@ -26,12 +33,10 @@ public class UserService {
      */
     public SuccessResponse onCreateUser(CreatUserDto creatUserDto){
 
-        System.out.println("동일한 Repository 인가요? = " + userRepository);
-
         int id = creatUserDto.getId();
         String name = creatUserDto.getName();
 
-        int userId = this.userRepository.save(id, name);
+        int userId = this.userDiskRepository.save(id, name);
 
         return new SuccessResponse(true, userId);
     }
@@ -46,7 +51,7 @@ public class UserService {
      * @return User[]
      */
     public SuccessResponse getUserList(){
-        List<User> userList = new ArrayList<>(this.userRepository.findAllByUser());
+        List<User> userList = new ArrayList<>(this.userDiskRepository.findAllByUser());
         return new SuccessResponse(true, userList);
     }
 
@@ -59,7 +64,7 @@ public class UserService {
      * @return User
      */
     public SuccessResponse getUser(int id){
-        User byUser = this.userRepository.findByUser(id);
+        User byUser = this.userDiskRepository.findByUser(id);
 
         return new SuccessResponse(true, byUser);
     }
@@ -77,7 +82,7 @@ public class UserService {
         int id = updateUserDto.getId();
         String name = updateUserDto.getName();
 
-        User user = this.userRepository.update(id, name);
+        User user = this.userDiskRepository.update(id, name);
 
         return new SuccessResponse(true, user);
     }
@@ -93,7 +98,7 @@ public class UserService {
      */
     public SuccessResponse deleteUser(int id){
 
-        Boolean success = this.userRepository.delete(id);
+        Boolean success = this.userDiskRepository.delete(id);
 
         return new SuccessResponse(success, null);
     }

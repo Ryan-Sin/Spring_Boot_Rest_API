@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     @Bean
     public UserRepositoryInterface userRepository(){
-
-        UserMemoryRepository userMemoryRepository = new UserMemoryRepository();
-
-        System.out.println("정말 등록하나요? =" + userMemoryRepository);
-        return userMemoryRepository;
+        return new UserMemoryRepository();
     }
 }
