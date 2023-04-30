@@ -1,11 +1,15 @@
 package com.ryan.spring_boot_rest_api.repository;
 
 import com.ryan.spring_boot_rest_api.domain.User;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
+//@Qualifier("memoryRepository")
 public class UserMemoryRepository implements UserRepositoryInterface{
 
     Map<Integer, User> memoryDB = new ConcurrentHashMap<>();

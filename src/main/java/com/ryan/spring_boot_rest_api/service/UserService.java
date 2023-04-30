@@ -4,23 +4,30 @@ import com.ryan.spring_boot_rest_api.domain.User;
 import com.ryan.spring_boot_rest_api.dto.CreatUserDto;
 import com.ryan.spring_boot_rest_api.dto.SuccessResponse;
 import com.ryan.spring_boot_rest_api.dto.UpdateUserDto;
-import com.ryan.spring_boot_rest_api.repository.UserDiskRepository;
 import com.ryan.spring_boot_rest_api.repository.UserRepositoryInterface;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepositoryInterface userRepository;
+    private final UserRepositoryInterface userRepositoryInterface;
 
     @Autowired
-    private final UserDiskRepository userDiskRepository;
+    public UserService(UserRepositoryInterface userRepositoryInterface) {
+        this.userRepositoryInterface = userRepositoryInterface;
+        System.out.println("주입된 구현체 조회 -> " +  userRepositoryInterface.getClass());
+    }
+
+//    @Autowired
+//    public UserService(@Qualifier("memoryRepository") UserRepositoryInterface userRepositoryInterface) {
+//        this.userRepositoryInterface = userRepositoryInterface;
+//    }
+
 
 
     /**
@@ -36,7 +43,7 @@ public class UserService {
         int id = creatUserDto.getId();
         String name = creatUserDto.getName();
 
-        int userId = this.userDiskRepository.save(id, name);
+        int userId = this.userRepositoryInterface.save(id, name);
 
         return new SuccessResponse(true, userId);
     }
@@ -51,7 +58,7 @@ public class UserService {
      * @return User[]
      */
     public SuccessResponse getUserList(){
-        List<User> userList = new ArrayList<>(this.userDiskRepository.findAllByUser());
+        List<User> userList = new ArrayList<>(this.userRepositoryInterface.findAllByUser());
         return new SuccessResponse(true, userList);
     }
 
@@ -64,7 +71,7 @@ public class UserService {
      * @return User
      */
     public SuccessResponse getUser(int id){
-        User byUser = this.userDiskRepository.findByUser(id);
+        User byUser = this.userRepositoryInterface.findByUser(id);
 
         return new SuccessResponse(true, byUser);
     }
@@ -82,7 +89,7 @@ public class UserService {
         int id = updateUserDto.getId();
         String name = updateUserDto.getName();
 
-        User user = this.userDiskRepository.update(id, name);
+        User user = this.userRepositoryInterface.update(id, name);
 
         return new SuccessResponse(true, user);
     }
@@ -98,7 +105,7 @@ public class UserService {
      */
     public SuccessResponse deleteUser(int id){
 
-        Boolean success = this.userDiskRepository.delete(id);
+        Boolean success = this.userRepositoryInterface.delete(id);
 
         return new SuccessResponse(success, null);
     }
