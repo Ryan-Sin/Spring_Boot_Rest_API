@@ -20,7 +20,7 @@ public class UserService {
     @Autowired
     public UserService(UserRepositoryInterface userRepositoryInterface) {
         this.userRepositoryInterface = userRepositoryInterface;
-        System.out.println("주입된 구현체 조회 -> " +  userRepositoryInterface.getClass());
+//        System.out.println("주입된 구현체 조회 -> " +  userRepositoryInterface.getClass());
     }
 
 //    @Autowired
